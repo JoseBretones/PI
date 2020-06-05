@@ -1,0 +1,34 @@
+<div class="container-flex">
+  <div id="containerButtonsActions" class="d-flex justify-content-end">
+    <button id="add" type="button" (click)="goToNewEntity()" class="btn btn-success d-flex justify-content-center d-flex align-items-center"><i class="fas fa-plus"></i></button>
+  </div>
+</div>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" />
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container
+    matColumnDef="{{ column }}"
+    *ngFor="let column of displayedColumns">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      {{ column | titlecase }}
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <p *ngIf="column !== 'tarifa' && column !== 'actividad' && column !== 'monitor'">
+        {{ element[column] }}
+      </p>
+      <p *ngIf="column === 'tarifa'">{{ element[column]["tipo"] }}</p>
+      <p *ngIf="column === 'actividad'">{{ element[column]["nombre"] }}</p>
+      <p *ngIf="column === 'monitor'">{{ element[column]["nombre"] }}</p>
+      <p *ngIf="column === 'Acciones'" class="d-flex align-items-center">
+        <button type="button" class="btn btn-warning d-flex justify-content-center" (click)="goToEditEntity(element)"><i class="far fa-edit"></i></button>
+        <button type="button" class="btn btn-danger d-flex justify-content-center"><i class="far fa-trash-alt"></i></button>
+      </p>
+    </td></ng-container
+  >
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

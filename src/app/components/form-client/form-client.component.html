@@ -1,0 +1,151 @@
+<h4>Formularios <small> Reactivos </small></h4>
+<hr />
+<form [formGroup]="reactiveForm" autocomplete="off" (ngSubmit)="onSubmit()">
+  <div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Nombre"
+          formControlName="nombre"
+          [class.is-invalid]="getFormControlNoValid('nombre')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('nombre')"
+          >Al menos 5 caracteres</small
+        >
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellidos</label>
+      <div class="col">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Apellido"
+          formControlName="apellidos"
+          [class.is-invalid]="getFormControlNoValid('apellidos')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('apellidos')"
+          >Este campo es obligatorio</small
+        >
+      </div>
+    </div>
+
+    <div class="form-group row" >
+      <label class="col-2 col-form-label">DNI</label>
+      <div class="col">
+        <input
+          [readOnly] ="editMode"
+          class="form-control"
+          type="text"
+          placeholder="DNI"
+          formControlName="dni"
+          [class.is-invalid]="getFormControlNoValid('dni')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('dni')"
+          >Este campo es obligatorio</small
+        >
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Dirección</label>
+      <div class="col">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="direccion"
+          formControlName="direccion"
+          [class.is-invalid]="getFormControlNoValid('direccion')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('direccion')"
+          >Este campo es obligatorio</small
+        >
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Fecha Nacimiento</label>
+      <div class="col">
+        <input
+          [readOnly] ="editMode"
+          class="form-control"
+          type="date"
+          placeholder="Fecha Nacimiento"
+          formControlName="fechaNacimiento"
+          [class.is-invalid]="getFormControlNoValid('fechaNacimiento')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('fechaNacimiento')"
+          >Este campo es obligatorio</small
+        >
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Teléfono</label>
+      <div class="col">
+        <input
+          class="form-control"
+          type="number"
+          placeholder="Teléfono"
+          formControlName="telefono"
+          [class.is-invalid]="getFormControlNoValid('telefono')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('telefono')"
+          >Este campo es obligatorio</small
+        >
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Correo</label>
+      <div class="col">
+        <input
+          class="form-control"
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+          [class.is-invalid]="getFormControlNoValid('email')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('email')"
+          >Este campo es obligatorio</small
+        >
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Password</label>
+      <div class="col">
+        <input
+          class="form-control"
+          type="password"
+          placeholder="Contraseña"
+          formControlName="password"
+          [class.is-invalid]="getFormControlNoValid('password')"
+        />
+        <small class="text-danger" *ngIf="getFormControlNoValid('password')"
+          >Este campo es obligatorio</small
+        >
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Tarifa</label>
+      <div class="col">
+        <select class="form-control" formControlName="tarifa">
+          <option selected="true" disabled>Seleccione una tarifa</option>
+          <option *ngFor="let tarifa of tarifas" [value]="tarifa.id">{{tarifa.tipo}}</option>
+
+        </select>
+
+      </div>
+    </div>
+
+  </div>
+  <button type="submit" class="btn btn-primary mt-2" style="float: right;">Crear</button>
+</form>

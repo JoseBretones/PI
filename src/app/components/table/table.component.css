@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+.mat-form-field { font-size: 14px; width: 100%; }
+#containerButtonsActions{
+  margin-right: 10px;
+}
+ #add{
+   margin: 15px 5px 0 0;
+ }
+
+ button{
+   width: 30px;
+   height: 30px;
+ }
+ .btn-warning , .btn-danger {
+   float: left;
+   margin-left: 5px;
+ }
