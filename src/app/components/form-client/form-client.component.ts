@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/app/services/client.service';
 import { Client } from 'src/app/models/client';
 import { PriceList } from 'src/app/models/priceList';
 import { PriceListService } from 'src/app/services/priceList.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 export interface ClientForm {
   nombre: string;
@@ -32,14 +31,21 @@ export interface ClientForm {
 })
 export class FormClientComponent implements OnInit {
 
+  @ViewChild('inputPassword', {static: false}) inputPassword: ElementRef;
+
   editMode = false;
   idClient: number;
   clientToEdit: Client;
   tarifas: Array<PriceList> = [];
+  defaultPriceList = 'hola';
 
   reactiveForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private clientService: ClienteService, private priceListService: PriceListService) {
+  constructor(
+      private formBuilder: FormBuilder,
+      private activatedRoute: ActivatedRoute,
+      private clientService: ClienteService,
+      private priceListService: PriceListService) {
 
     this.activatedRoute.params.subscribe(params => {
       if (params['id']) {
@@ -48,12 +54,13 @@ export class FormClientComponent implements OnInit {
       }
     });
 
-    this.getTarifa();
+    this.getAllTarifas();
   }
 
-  getTarifa() {
+  getAllTarifas() {
     this.priceListService.lista().subscribe(params => {
       this.tarifas = params;
+      // this.defaultPriceList = this.tarifas[0].id;
     });
   }
 
@@ -112,12 +119,6 @@ export class FormClientComponent implements OnInit {
 
   }
 
-  createListeners() {
-    /* this.reactiveForm.valueChanges.subscribe(value =>  console.log('listener: ', value));
-    this.reactiveForm.statusChanges.subscribe(status => console.log('status: ', status)); */
-    this.reactiveForm.get('nombre').valueChanges.subscribe(change => console.log('change: ', change));
-  }
-
   onSubmit() {
     if (this.reactiveForm.invalid) {
       return Object.values(this.reactiveForm.controls).forEach(control => {
@@ -128,13 +129,13 @@ export class FormClientComponent implements OnInit {
         }
       });
     } else {
-      //fecha actual para el nuevo cliente
-      if(!this.editMode){
+      // fecha actual para el nuevo cliente
+      if (!this.editMode){
       const date = new Date();
       const fechaCliente = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
       }
       // Post de información valida
-      let newClient: ClientForm = {
+      const newClient: ClientForm = {
         nombre: this.reactiveForm.get('nombre').value,
         apellidos: this.reactiveForm.get('apellidos').value,
         direccion: this.reactiveForm.get('direccion').value,
@@ -148,21 +149,25 @@ export class FormClientComponent implements OnInit {
         diasEntrenados: 0,
         tarifa: 1,
         password: this.reactiveForm.get('password').value
-      }
+      };
       console.log('CLIENTE A GUARDAR: ', newClient);
-      this.clientService.crear(newClient).subscribe(res=>{console.log(res);});
+      this.clientService.crear(newClient).subscribe(res => console.log(res));
       console.log('CLIENTE CREADO');
     }
   }
 
-  formatDate(date: string) {
-    //1997-10-10T22:00:00.000+0000
+  formatDate(date: string): string {
+    // 1997-10-10T22:00:00.000+0000
     const years = date.substr(0, 4);
     const months = date.substr(5, 2);
     const days = date.substr(8, 2);
-    let newDate = [years, months, days].join('-');
-    return newDate;
+    return [years, months, days].join('-');
 
+  }
+
+  showHidePassword() {
+    console.log('inut password: ', this.inputPassword);
+    // this.inputPassword.nativeElemen
   }
 
 
